@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>一梦江湖礼包码批量兑换</title>
+    <link rel="icon" type="image/png" href="https://jianghu.res.netease.com/m/zt/20180807110856/img/bin_092b617.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="bg-layer" aria-hidden="true"></div>
+    <div class="container">
+        <h1>一梦江湖礼包码批量兑换</h1>
+        <p class="subtitle">支持多个大区、多个角色一键批量兑换</p>
+
+        <div class="import-box">
+            <label>一键导入</label>
+            <textarea id="importInput" placeholder="人间如梦,1234567890 1234567890;踏月留香,1234567890;"></textarea>
+            <div class="import-foot">
+                <div class="hint">
+                    怎么填：先写大区名字，加一个逗号，再写这个区的角色ID；同一个区的多个角色ID之间用空格隔开；不同大区之间用分号隔开。<br>
+                    例子：人间如梦,1234567890 1234567890;踏月留香,1234567890;<br>
+                    <span class="warn">注意：最多只能导入 20 个大区，每个大区最多 20 个角色。</span>
+                </div>
+                <button type="button" class="mini" id="importBtn">一键导入信息</button>
+            </div>
+        </div>
+
+        <div class="form-area" id="formArea">
+            <div class="section-title">
+                <label>手动添加</label>
+                <button type="button" class="mini ghost" id="addBtn">+ 添加大区</button>
+            </div>
+            <div id="groups"></div>
+
+            <label for="codesInput">填写兑换码</label>
+            <textarea id="codesInput" placeholder="一行一个兑换码，例如：ymjhvip520"></textarea>
+        </div>
+
+        <div class="btn-row">
+            <button id="startBtn">批量兑换</button>
+            <button id="checkAllBtn" class="ghost">批量查询角色名</button>
+            <button id="stopBtn" class="solid-danger" disabled>停止</button>
+        </div>
+
+        <div class="hint action-note">查询角色名和兑换都是由你自己的浏览器直接发给游戏服务器，不经过本网站，请放心使用。</div>
+
+        <div id="summary"></div>
+        <div id="progress"></div>
+
+        <div id="failSection" style="display:none">
+            <div class="fail-head">
+                <label>失败名单</label>
+                <button type="button" class="mini danger-ghost" id="copyFailBtn">复制失败名单</button>
+            </div>
+            <div id="failList"></div>
+        </div>
+
+        <div class="table-wrap">
+            <table id="resultTable" style="display:none">
+                <thead>
+                    <tr>
+                        <th style="width:52px">序号</th>
+                        <th style="width:150px">大区</th>
+                        <th style="width:200px">角色</th>
+                        <th style="width:150px">兑换码</th>
+                        <th style="width:120px">结果</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody"></tbody>
+            </table>
+        </div>
+
+        <details class="codes-box" id="codesBox">
+            <summary>
+                <span>收集的公开兑换码</span>
+                <span class="arrow">▾</span>
+            </summary>
+            <div class="codes-panel">
+                <div class="codes-head">
+                    <span class="hint">清单内容来自 goods/code.md</span>
+                    <button type="button" class="mini ghost" id="copyCodesBtn">一键复制全部兑换码</button>
+                </div>
+                <div class="codes-table-wrap" id="codesTableWrap">
+                    <div class="hint">展开后加载...</div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <footer class="site-footer">
+        <span>©2026 <a href="https://longli.space" target="_blank" rel="noopener">longli.space</a></span>
+        <span>版权所有：<a href="https://jianghu.163.com" target="_blank" rel="noopener">网易一梦江湖</a></span>
+    </footer>
+
+    <datalist id="serverList"></datalist>
+
+    <div id="dialog" class="modal-mask">
+        <div class="modal">
+            <h3 id="dialogTitle"></h3>
+            <div id="dialogBody"></div>
+            <div class="modal-btns">
+                <button type="button" id="dialogCancel">取消</button>
+                <button type="button" id="dialogOk">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/server-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

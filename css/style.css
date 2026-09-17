@@ -1,0 +1,789 @@
+/* ================= 基础与变量 ================= */
+:root {
+    --primary: #2f6fed;
+    --primary-dark: #1f57c9;
+    --primary-soft: #eef4ff;
+    --success: #18a058;
+    --danger: #e5484d;
+    --danger-soft: #fff5f5;
+    --text: #22293a;
+    --text-soft: #4a5468;
+    --muted: #7b8496;
+    --border: #e3e8ef;
+    --bg: #eef2f7;
+    --radius: 10px;
+    --shadow: 0 6px 20px rgba(24, 42, 78, 0.08);
+    --bg-image: url("https://jianghu.res.netease.com/m/zt/20180807110856/img/bg1_cb06ca9.jpg");
+    --actor-image: url("https://jianghu.res.netease.com/m/zt/20180807110856/img/actor_d49f760.png");
+    --glass: rgba(255, 255, 255, 0.6);
+    --blur: blur(3px);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    /* 底部留出比页脚横幅更高的空白，翻到底时卡片不会被横幅挡住 */
+    margin: 0;
+    padding: 24px 16px 78px;
+    color: var(--text);
+    font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--bg);
+}
+
+/* 背景层：固定在窗口上，不随页面滚动
+   两层图：角色立绘在上层，场景图铺底（宽度铺满、顶部居中，图片加载失败时用底色兜底） */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--bg);
+    background-image: var(--actor-image), var(--bg-image);
+    background-repeat: no-repeat, no-repeat;
+    background-position: right bottom, center top;
+    background-size: auto, 100%;
+}
+
+@media (max-width: 720px) {
+    /* 移动端：角色立绘宽度铺满屏幕、靠下居中；桌面端：图片原始尺寸、贴右下角 */
+    .bg-layer {
+        background-position: center bottom, center top;
+        background-size: 100%, 100%;
+    }
+}
+
+.container {
+    max-width: 1020px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 28px 28px 32px;
+}
+
+h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.subtitle {
+    margin: 0 0 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ================= 表单通用 ================= */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-soft);
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+textarea {
+    height: 92px;
+    resize: vertical;
+    font-family: Consolas, "Courier New", monospace;
+    line-height: 1.7;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.14);
+}
+
+::placeholder {
+    color: #b3bbc9;
+}
+
+.hint {
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--muted);
+}
+
+.hint.ok {
+    color: var(--success);
+}
+
+.hint.bad {
+    color: var(--danger);
+}
+
+.warn {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+/* ================= 按钮 ================= */
+button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+button:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+button:disabled {
+    background: #c3ccdb;
+    border-color: #c3ccdb;
+    cursor: not-allowed;
+}
+
+button.mini {
+    padding: 9px 14px;
+    font-size: 13.5px;
+    white-space: nowrap;
+}
+
+button.ghost {
+    background: #fff;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+button.ghost:hover:not(:disabled) {
+    background: var(--primary);
+    color: #fff;
+}
+
+button.ghost:disabled {
+    color: #a8b2c2;
+    border-color: #d5dce7;
+    background: #fff;
+}
+
+button.danger-ghost {
+    background: #fff;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+button.danger-ghost:hover:not(:disabled) {
+    background: var(--danger);
+    color: #fff;
+}
+
+button.solid-danger {
+    background: var(--danger);
+}
+
+button.solid-danger:hover:not(:disabled) {
+    background: #c93a3f;
+}
+
+/* ================= 一键导入区 ================= */
+.import-box {
+    border: 1px solid #d7e4ff;
+    background: linear-gradient(180deg, #f7faff, var(--primary-soft));
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.import-box textarea {
+    height: 74px;
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+.import-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.import-foot .hint {
+    margin: 0;
+    flex: 1;
+}
+
+/* ================= 大区分组 ================= */
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.section-title label {
+    margin: 0;
+}
+
+#groups {
+    margin-bottom: 22px;
+}
+
+.group-row {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius);
+    background: #fcfdff;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.g-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.g-top .server-name {
+    flex: 1;
+}
+
+.group-row .roles {
+    margin-top: 10px;
+    height: 84px;
+}
+
+.g-hint {
+    margin-top: 6px;
+}
+
+.g-names {
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--text-soft);
+    word-break: break-all;
+}
+
+.g-names .name-item {
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 0 6px 4px 0;
+    border-radius: 20px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+}
+
+.g-names .name-item.error {
+    background: #fdecec;
+    color: var(--danger);
+}
+
+/* ================= 操作区 ================= */
+.btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-row #startBtn {
+    flex: 3;
+}
+
+.btn-row #checkAllBtn {
+    flex: 2;
+}
+
+.btn-row #stopBtn {
+    flex: 1;
+}
+
+.action-note {
+    margin-top: 10px;
+    color: var(--text-soft);
+}
+
+#summary {
+    margin-top: 22px;
+    font-size: 14px;
+}
+
+#summary .total {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+#summary .line {
+    padding: 3px 0;
+    color: var(--text-soft);
+}
+
+#progress {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    word-break: break-all;
+}
+
+/* ================= 失败名单 ================= */
+#failSection {
+    margin-top: 20px;
+}
+
+.fail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.fail-head label {
+    margin: 0;
+}
+
+#failList {
+    border: 1px solid #f3cfd1;
+    background: var(--danger-soft);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 2;
+    max-height: 260px;
+    overflow: auto;
+}
+
+#failList .fail-item {
+    font-family: Consolas, "Courier New", monospace;
+    color: var(--text-soft);
+    word-break: break-all;
+}
+
+/* ================= 结果表格 ================= */
+.table-wrap {
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+th,
+td {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    word-break: break-all;
+}
+
+th {
+    background: #f7f9fc;
+    font-weight: 700;
+    color: var(--text-soft);
+    white-space: nowrap;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tr.success td.status a {
+    color: var(--success);
+}
+
+tr.error td.status a {
+    color: var(--danger);
+}
+
+tr.pending td.status {
+    color: var(--muted);
+}
+
+td.status a {
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+tr.detail td {
+    background: #f9fafc;
+    font-size: 12.5px;
+    color: var(--text-soft);
+}
+
+tr.detail pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: Consolas, "Courier New", monospace;
+}
+
+/* ================= 弹窗 ================= */
+.modal-mask {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    padding: 20px;
+    background: rgba(20, 28, 45, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    width: 100%;
+    max-width: 480px;
+    max-height: 86vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 18px 48px rgba(15, 26, 48, 0.28);
+}
+
+.modal h3 {
+    margin: 0 0 14px;
+    font-size: 18px;
+}
+
+.modal p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text-soft);
+}
+
+.modal p:last-child {
+    margin-bottom: 0;
+}
+
+.modal-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-btns button {
+    min-width: 108px;
+}
+
+#dialogCancel {
+    background: #fff;
+    color: #5d6678;
+    border: 1px solid #cfd6e1;
+}
+
+#dialogCancel:hover:not(:disabled) {
+    background: #f2f4f8;
+}
+
+/* ================= 收集的公开兑换码（默认折叠） ================= */
+.codes-box {
+    margin-top: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fcfdff;
+    overflow: hidden;
+}
+
+.codes-box summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-soft);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.codes-box summary::-webkit-details-marker {
+    display: none;
+}
+
+.codes-box summary:hover {
+    background: #f4f7fd;
+}
+
+.codes-box summary .arrow {
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.2s;
+}
+
+.codes-box[open] summary .arrow {
+    transform: rotate(180deg);
+}
+
+.codes-panel {
+    border-top: 1px solid var(--border);
+    padding: 14px 16px 16px;
+}
+
+/* 折叠时确保内容真正不可见（兼容 details 的不同实现） */
+.codes-box:not([open]) .codes-panel {
+    display: none;
+}
+
+.codes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.codes-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.codes-table-wrap table {
+    min-width: 420px;
+}
+
+.codes-table-wrap th,
+.codes-table-wrap td {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.codes-table-wrap td:first-child {
+    font-family: Consolas, "Courier New", monospace;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+/* ================= 毛玻璃效果：70% 半透明 + 高斯模糊 ================= */
+.container,
+.import-box,
+.group-row,
+#failList,
+.codes-box,
+.codes-panel,
+.modal,
+textarea,
+input,
+th,
+tr.detail td {
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+}
+
+.container,
+.group-row,
+textarea,
+input,
+.modal,
+.codes-box,
+.codes-panel,
+th {
+    background: var(--glass);
+}
+
+.import-box {
+    background: rgba(238, 244, 255, 0.6);
+}
+
+#failList {
+    background: rgba(255, 245, 245, 0.6);
+}
+
+tr.detail td {
+    background: rgba(249, 250, 252, 0.6);
+}
+
+/* ================= 运行中禁用表单 ================= */
+.form-area.is-busy {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ================= 页脚：翻到底部时浮现的白色横幅 ================= */
+.site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 18px;
+    padding: 10px 16px;
+    font-size: 13px;
+    text-align: center;
+    color: #000;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 14px rgba(24, 42, 78, 0.06);
+    transform: translateY(100%);
+    transition: transform 0.25s ease;
+    pointer-events: none;
+}
+
+.site-footer.is-visible {
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.site-footer a {
+    color: #000;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ================= 移动端适配 ================= */
+@media (max-width: 720px) {
+    body {
+        padding: 12px 10px 40px;
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 18px 14px 22px;
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 19px;
+    }
+
+    /* 移动端输入字号 16px，避免 iOS 聚焦时自动放大 */
+    input[type="text"],
+    textarea {
+        font-size: 16px;
+        padding: 10px 11px;
+    }
+
+    .import-box {
+        padding: 12px;
+        margin-bottom: 18px;
+    }
+
+    .import-foot {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .import-foot button {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    .g-top {
+        flex-wrap: wrap;
+    }
+
+    .g-top .server-name {
+        flex: 1 1 100%;
+    }
+
+    .section-title {
+        flex-wrap: wrap;
+    }
+
+    /* 主操作按钮竖排，方便单手点按 */
+    .btn-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-row button {
+        width: 100%;
+        min-height: 46px;
+        font-size: 15px;
+    }
+
+    .fail-head {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .fail-head button {
+        width: 100%;
+    }
+
+    .codes-head {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .codes-head button {
+        width: 100%;
+    }
+
+    #failList {
+        padding: 8px 10px;
+        font-size: 12.5px;
+    }
+
+    .modal {
+        padding: 20px 16px;
+        max-height: 90vh;
+    }
+
+    .modal h3 {
+        font-size: 16.5px;
+    }
+
+    /* 移动端主按钮在上，方便拇指点击 */
+    .modal-btns {
+        flex-direction: column-reverse;
+    }
+
+    .modal-btns button {
+        width: 100%;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 380px) {
+    .table-wrap table {
+        min-width: 520px;
+    }
+}
