@@ -13,8 +13,8 @@
     --bg: #eef2f7;
     --radius: 10px;
     --shadow: 0 6px 20px rgba(24, 42, 78, 0.08);
-    --bg-image: url("https://jianghu.res.netease.com/m/zt/20180807110856/img/bg1_cb06ca9.jpg");
-    --actor-image: url("https://jianghu.res.netease.com/m/zt/20180807110856/img/actor_d49f760.png");
+    --bg-image: url("../image/bg1_cb06ca9.jpg");
+    --actor-image: url("../image/actor_d49f760.png");
     --glass: rgba(255, 255, 255, 0.6);
     --blur: blur(3px);
 }
