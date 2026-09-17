@@ -674,6 +674,20 @@ tr.detail td {
     text-decoration: underline;
 }
 
+/* GitHub 开源地址：小图标 + 项目名，图标与文字垂直居中 */
+.site-footer .gh-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.site-footer .gh-icon {
+    width: 15px;
+    height: 15px;
+    flex: none;
+    fill: currentColor;
+}
+
 /* ================= 移动端适配 ================= */
 @media (max-width: 720px) {
     body {
