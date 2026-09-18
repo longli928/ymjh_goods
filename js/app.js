@@ -1,5 +1,7 @@
-// 兑换结果关键字（按顺序匹配接口返回的 msg）
-const REDEEM_KEYWORDS = ['兑换码不存在', '已领取过', '兑换码已过期'];
+// 兑换结果中视为“成功”的关键字（按顺序匹配接口返回的 msg）
+// 已领取过 / 序列号（兑换码）已过期 / 序列号（兑换码）不存在 都不需要再处理，算成功；
+// “操作太频繁”等其余情况才算失败
+const REDEEM_SUCCESS_KEYWORDS = ['已领取过', '已过期', '序列号不存在', '兑换码不存在'];
 
 // 导入数量限制
 const MAX_GROUPS = 20;
@@ -121,8 +123,10 @@ function parseRedeemResult(raw) {
         return { ok: true, text: '兑换成功' };
     }
     const msg = raw && raw.msg ? String(raw.msg) : '兑换失败';
-    const hit = REDEEM_KEYWORDS.find(word => msg.includes(word));
-    return { ok: false, text: hit || msg };
+    // 已领取过 / 序列号（兑换码）已过期 / 序列号（兑换码）不存在，一律视为成功；
+    // 其余情况（例如“操作太频繁”、请求超时/失败）才算失败
+    const asSuccess = REDEEM_SUCCESS_KEYWORDS.some(word => msg.includes(word));
+    return { ok: asSuccess, text: msg };
 }
 
 // ===== 大区分组 =====
